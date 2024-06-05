@@ -304,8 +304,8 @@ def create_ui():
                     elif category == "dimensions":
                         with FormRow():
                             with gr.Column(elem_id="txt2img_column_size", scale=4):
-                                width = gr.Slider(minimum=64, maximum=2048, step=8, label="Width", value=512, elem_id="txt2img_width")
-                                height = gr.Slider(minimum=64, maximum=2048, step=8, label="Height", value=512, elem_id="txt2img_height")
+                                width = gr.Slider(minimum=64, maximum=1536, step=8, label="Width", value=1024, elem_id="txt2img_width")
+                                height = gr.Slider(minimum=64, maximum=1536, step=8, label="Height", value=1024, elem_id="txt2img_height")
 
                             with gr.Column(elem_id="txt2img_dimensions_row", scale=1, elem_classes="dimensions-tools"):
                                 res_switch_btn = ToolButton(value=switch_values_symbol, elem_id="txt2img_res_switch_btn", tooltip="Switch width/height")
@@ -329,9 +329,9 @@ def create_ui():
                                 with enable_hr.extra():
                                     hr_final_resolution = FormHTML(value="", elem_id="txtimg_hr_finalres", label="Upscaled resolution", interactive=False, min_width=0)
 
-                                with FormRow(elem_id="txt2img_hires_fix_row1", variant="compact"):
+                                with FormRow(elem_id="txt2img_hires_fix_row1", variant="compact",visible=False):
                                     hr_upscaler = gr.Dropdown(label="Upscaler", elem_id="txt2img_hr_upscaler", choices=[*shared.latent_upscale_modes, *[x.name for x in shared.sd_upscalers]], value=shared.latent_upscale_default_mode)
-                                    hr_second_pass_steps = gr.Slider(minimum=0, maximum=150, step=1, label='Hires steps', value=0, elem_id="txt2img_hires_steps")
+                                    hr_second_pass_steps = gr.Slider(minimum=0, maximum=0, step=1, label='Hires steps', value=0, elem_id="txt2img_hires_steps")
                                     denoising_strength = gr.Slider(minimum=0.0, maximum=1.0, step=0.01, label='Denoising strength', value=0.7, elem_id="txt2img_denoising_strength")
 
                                 with FormRow(elem_id="txt2img_hires_fix_row2", variant="compact"):
@@ -399,13 +399,13 @@ def create_ui():
                 toprow.prompt,
                 toprow.negative_prompt,
                 toprow.ui_styles.dropdown,
-                min(steps,28),
+                steps,
                 sampler_name,
                 1,
                 1,
                 cfg_scale,
-                min(height,1536),
-                min(width,1536),
+                height,1536,
+                width,1536,
                 False,
                 denoising_strength,
                 hr_scale,

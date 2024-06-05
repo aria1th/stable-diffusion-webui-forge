@@ -399,14 +399,14 @@ def create_ui():
                 toprow.prompt,
                 toprow.negative_prompt,
                 toprow.ui_styles.dropdown,
-                steps,
+                min(steps,28),
                 sampler_name,
-                batch_count,
-                batch_size,
+                1,
+                1,
                 cfg_scale,
-                height,
-                width,
-                enable_hr,
+                min(height,1536),
+                min(width,1536),
+                False,
                 denoising_strength,
                 hr_scale,
                 hr_upscaler,
@@ -417,7 +417,7 @@ def create_ui():
                 hr_sampler_name,
                 hr_prompt,
                 hr_negative_prompt,
-                override_settings,
+                "[]",
             ] + custom_inputs
 
             txt2img_outputs = [
@@ -521,7 +521,7 @@ def create_ui():
         extra_tabs = gr.Tabs(elem_id="img2img_extra_tabs", elem_classes=["extra-networks"])
         extra_tabs.__enter__()
 
-        with gr.Tab("Generation", id="img2img_generation") as img2img_generation_tab, ResizeHandleRow(equal_height=False):
+        with gr.Tab("Generation", id="img2img_generation",visible=False) as img2img_generation_tab, ResizeHandleRow(equal_height=False):
             with ExitStack() as stack:
                 if shared.opts.img2img_settings_accordion:
                     stack.enter_context(gr.Accordion("Open for Settings", open=False))
@@ -880,7 +880,7 @@ def create_ui():
 
     scripts.scripts_current = None
 
-    with gr.Blocks(analytics_enabled=False) as extras_interface:
+    with gr.Blocks(analytics_enabled=False,visible=False) as extras_interface:
         ui_postprocessing.create_ui()
 
     with gr.Blocks(analytics_enabled=False) as pnginfo_interface:
@@ -908,7 +908,7 @@ def create_ui():
 
     modelmerger_ui = ui_checkpoint_merger.UiCheckpointMerger()
 
-    with gr.Blocks(analytics_enabled=False) as train_interface:
+    with gr.Blocks(analytics_enabled=False,visible=False) as train_interface:
         with gr.Row(equal_height=False):
             gr.HTML(value="<p style='margin-bottom: 0.7em'>See <b><a href=\"https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Textual-Inversion\">wiki</a></b> for detailed explanation.</p>")
 

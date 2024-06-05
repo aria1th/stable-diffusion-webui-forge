@@ -509,7 +509,7 @@ def create_ui():
     scripts.scripts_current = scripts.scripts_img2img
     scripts.scripts_img2img.initialize_scripts(is_img2img=True)
 
-    with gr.Blocks(analytics_enabled=False) as img2img_interface:
+    with gr.Blocks(analytics_enabled=False,visible=False) as img2img_interface:
         toprow = ui_toprow.Toprow(is_img2img=True, is_compact=shared.opts.compact_prompt_box)
 
         extra_tabs = gr.Tabs(elem_id="img2img_extra_tabs", elem_classes=["extra-networks"])
@@ -1121,7 +1121,11 @@ def create_ui():
 
     interfaces = [
         (txt2img_interface, "txt2img", "txt2img"),
+        (img2img_interface, "img2img", "img2img"),
+        (extras_interface, "Extras", "extras"),
         (pnginfo_interface, "PNG Info", "pnginfo"),
+        (modelmerger_ui.blocks, "Checkpoint Merger", "modelmerger"),
+        (train_interface, "Train", "train"),
     ]
 
     interfaces += script_callbacks.ui_tabs_callback()

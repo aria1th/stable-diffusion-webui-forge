@@ -1121,18 +1121,18 @@ def create_ui():
 
     interfaces = [
         (txt2img_interface, "txt2img", "txt2img"),
-        #(img2img_interface, "img2img", "img2img"),
-        #(extras_interface, "Extras", "extras"),
+        (img2img_interface, "img2img", "img2img"),
+        (extras_interface, "Extras", "extras"),
         (pnginfo_interface, "PNG Info", "pnginfo"),
-        #(modelmerger_ui.blocks, "Checkpoint Merger", "modelmerger"),
-        #(train_interface, "Train", "train"),
+        (modelmerger_ui.blocks, "Checkpoint Merger", "modelmerger"),
+        (train_interface, "Train", "train"),
     ]
 
     interfaces += script_callbacks.ui_tabs_callback()
-    #interfaces += [(settings.interface, "Settings", "settings")]
+    interfaces += [(settings.interface, "Settings", "settings")]
 
     extensions_interface = ui_extensions.create_ui()
-    #interfaces += [(extensions_interface, "Extensions", "extensions")]
+    interfaces += [(extensions_interface, "Extensions", "extensions")]
 
     shared.tab_names = []
     for _interface, label, _ifid in interfaces:
@@ -1148,7 +1148,7 @@ def create_ui():
             sorted_interfaces = sorted(interfaces, key=lambda x: tab_order.get(x[1], 9999))
 
             for interface, label, ifid in sorted_interfaces:
-                if label in shared.opts.hidden_tabs:
+                if label in shared.opts.hidden_tabs or label in ["img2img", "Extras", "Checkpoint Merger", "Train"]:
                     continue
                 with gr.TabItem(label, id=ifid, elem_id=f"tab_{ifid}"):
                     interface.render()

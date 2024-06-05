@@ -204,48 +204,17 @@ class UiSettings:
 
                 return handler
 
-            unload_sd_model.click(
-                fn=call_func_and_return_text(sd_models.unload_model_weights, 'Unloaded the checkpoint'),
-                inputs=[],
-                outputs=[self.result]
-            )
-
-            reload_sd_model.click(
-                fn=call_func_and_return_text(lambda: sd_models.send_model_to_device(shared.sd_model), 'Loaded the checkpoint'),
-                inputs=[],
-                outputs=[self.result]
-            )
-
-            request_notifications.click(
-                fn=lambda: None,
-                inputs=[],
-                outputs=[],
-                _js='function(){}'
-            )
-
-            download_localization.click(
-                fn=lambda: None,
-                inputs=[],
-                outputs=[],
-                _js='download_localization'
-            )
-
             def reload_scripts():
                 scripts.reload_script_body_only()
                 reload_javascript()  # need to refresh the html page
 
-            reload_script_bodies.click(
-                fn=reload_scripts,
-                inputs=[],
-                outputs=[]
-            )
 
-            restart_gradio.click(
-                fn=shared.state.request_restart,
-                _js='restart_reload',
-                inputs=[],
-                outputs=[],
-            )
+            # restart_gradio.click(
+            #     fn=shared.state.request_restart,
+            #     _js='restart_reload',
+            #     inputs=[],
+            #     outputs=[],
+            # )
 
             def check_file(x):
                 if x is None:
@@ -272,10 +241,6 @@ class UiSettings:
                         print(f"{completed} / {len(checkpoints_list)} ")
                     print("Finish calculating hash for all checkpoints")
 
-            calculate_all_checkpoint_hash.click(
-                fn=calculate_all_checkpoint_hash_fn,
-                inputs=[calculate_all_checkpoint_hash_threads],
-            )
 
         self.interface = settings_interface
 
@@ -286,11 +251,6 @@ class UiSettings:
                 self.component_dict[k] = component
 
     def add_functionality(self, demo):
-        self.submit.click(
-            fn=wrap_gradio_call(lambda *args: self.run_settings(*args), extra_outputs=[gr.update()]),
-            inputs=self.components,
-            outputs=[self.text_settings, self.result],
-        )
 
         for _i, k, _item in self.quicksettings_list:
             component = self.component_dict[k]

@@ -900,14 +900,14 @@ def create_ui():
             outputs=[html, generation_info, html2],
         )
 
-    #modelmerger_ui = ui_checkpoint_merger.UiCheckpointMerger()
+    modelmerger_ui = ui_checkpoint_merger.UiCheckpointMerger()
 
     with gr.Blocks(analytics_enabled=False,visible=False) as train_interface:
         with gr.Row(equal_height=False):
             gr.HTML(value="<p style='margin-bottom: 0.7em'>See <b><a href=\"https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Textual-Inversion\">wiki</a></b> for detailed explanation.</p>")
 
         with ResizeHandleRow(variant="compact", equal_height=False):
-            with gr.Tabs(elem_id="train_tabs", visible=False):
+            with gr.Tabs(elem_id="train_tabs"):
 
                 with gr.Tab(label="Create embedding", id="create_embedding"):
                     new_embedding_name = gr.Textbox(label="Name", elem_id="train_new_embedding_name")
@@ -1117,7 +1117,7 @@ def create_ui():
     ui_settings_from_file = loadsave.ui_settings.copy()
 
     settings = ui_settings.UiSettings()
-    #settings.create_ui(loadsave, dummy_component)
+    settings.create_ui(loadsave, dummy_component)
 
     interfaces = [
         (txt2img_interface, "txt2img", "txt2img"),
@@ -1173,7 +1173,7 @@ def create_ui():
         settings.text_settings.change(fn=update_image_cfg_scale_visibility, inputs=[], outputs=[image_cfg_scale])
         demo.load(fn=update_image_cfg_scale_visibility, inputs=[], outputs=[image_cfg_scale])
 
-        #modelmerger_ui.setup_ui(dummy_component=dummy_component, sd_model_checkpoint_component=settings.component_dict['sd_model_checkpoint'])
+        modelmerger_ui.setup_ui(dummy_component=dummy_component, sd_model_checkpoint_component=settings.component_dict['sd_model_checkpoint'])
 
     if ui_settings_from_file != loadsave.ui_settings:
         loadsave.dump_defaults()

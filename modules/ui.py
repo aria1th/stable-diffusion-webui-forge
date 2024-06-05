@@ -906,8 +906,8 @@ def create_ui():
         with gr.Row(equal_height=False):
             gr.HTML(value="<p style='margin-bottom: 0.7em'>See <b><a href=\"https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Textual-Inversion\">wiki</a></b> for detailed explanation.</p>")
 
-        with ResizeHandleRow(variant="compact", equal_height=False):
-            with gr.Tabs(elem_id="train_tabs"):
+        with ResizeHandleRow(variant="compact", equal_height=False, visible=False):
+            with gr.Tabs(elem_id="train_tabs", visible=False):
 
                 with gr.Tab(label="Create embedding", id="create_embedding"):
                     new_embedding_name = gr.Textbox(label="Name", elem_id="train_new_embedding_name")
@@ -1121,18 +1121,18 @@ def create_ui():
 
     interfaces = [
         (txt2img_interface, "txt2img", "txt2img"),
-        (img2img_interface, "img2img", "img2img"),
-        (extras_interface, "Extras", "extras"),
+        #(img2img_interface, "img2img", "img2img"),
+        #(extras_interface, "Extras", "extras"),
         (pnginfo_interface, "PNG Info", "pnginfo"),
-        (modelmerger_ui.blocks, "Checkpoint Merger", "modelmerger"),
-        (train_interface, "Train", "train"),
+        #(modelmerger_ui.blocks, "Checkpoint Merger", "modelmerger"),
+        #(train_interface, "Train", "train"),
     ]
 
     interfaces += script_callbacks.ui_tabs_callback()
-    interfaces += [(settings.interface, "Settings", "settings")]
+    #interfaces += [(settings.interface, "Settings", "settings")]
 
     extensions_interface = ui_extensions.create_ui()
-    interfaces += [(extensions_interface, "Extensions", "extensions")]
+    #interfaces += [(extensions_interface, "Extensions", "extensions")]
 
     shared.tab_names = []
     for _interface, label, _ifid in interfaces:

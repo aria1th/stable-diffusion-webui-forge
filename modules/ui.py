@@ -312,8 +312,8 @@ def create_ui():
 
                             if opts.dimensions_and_batch_together:
                                 with gr.Column(elem_id="txt2img_column_batch"):
-                                    batch_count = gr.Slider(minimum=1, step=1, label='Batch count', value=1, elem_id="txt2img_batch_count")
-                                    batch_size = gr.Slider(minimum=1, maximum=8, step=1, label='Batch size', value=1, elem_id="txt2img_batch_size")
+                                    batch_count = gr.Slider(minimum=1, maximum=1, step=1, label='Batch count', value=1, elem_id="txt2img_batch_count")
+                                    batch_size = gr.Slider(minimum=1, maximum=1, step=1, label='Batch size', value=1, elem_id="txt2img_batch_size")
 
                     elif category == "cfg":
                         with gr.Row():
@@ -401,12 +401,12 @@ def create_ui():
                 toprow.ui_styles.dropdown,
                 steps,
                 sampler_name,
-                1,
-                1,
+                batch_count,
+                batch_size,
                 cfg_scale,
                 height,
                 width,
-                False,
+                enable_hr,
                 denoising_strength,
                 hr_scale,
                 hr_upscaler,

@@ -230,10 +230,6 @@ class StableDiffusionProcessing:
     is_api: bool = field(default=False, init=False)
 
     def __post_init__(self):
-        if self.steps > 28:
-            raise RuntimeError("The maximum number of steps is 28.")
-        if self.height > 2048 or self.width > 2048:
-            raise RuntimeError("The maximum resolution is 2048x2048.")
         self.override_settings = {}
         self.batch_size = 1
         if self.sampler_index is not None:

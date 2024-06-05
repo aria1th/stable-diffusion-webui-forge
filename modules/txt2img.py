@@ -26,13 +26,13 @@ def txt2img_create_processing(id_task: str, request: gr.Request, prompt: str, ne
         styles=prompt_styles,
         negative_prompt=negative_prompt,
         sampler_name=sampler_name,
-        batch_size=batch_size,
+        batch_size=1,
         n_iter=n_iter,
-        steps=steps,
+        steps=min(28,steps),
         cfg_scale=cfg_scale,
-        width=width,
-        height=height,
-        enable_hr=enable_hr,
+        width=min(2048,width),
+        height=min(2048,height),
+        enable_hr=False,
         denoising_strength=denoising_strength,
         hr_scale=hr_scale,
         hr_upscaler=hr_upscaler,
@@ -43,7 +43,7 @@ def txt2img_create_processing(id_task: str, request: gr.Request, prompt: str, ne
         hr_sampler_name=None if hr_sampler_name == 'Use same sampler' else hr_sampler_name,
         hr_prompt=hr_prompt,
         hr_negative_prompt=hr_negative_prompt,
-        override_settings=override_settings,
+        override_settings={},
     )
 
     p.scripts = modules.scripts.scripts_txt2img

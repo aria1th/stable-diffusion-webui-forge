@@ -1148,7 +1148,7 @@ def create_ui():
             sorted_interfaces = sorted(interfaces, key=lambda x: tab_order.get(x[1], 9999))
 
             for interface, label, ifid in sorted_interfaces:
-                if label in shared.opts.hidden_tabs or label in ["img2img", "Extras", "Checkpoint Merger", "Train"]:
+                if label in shared.opts.hidden_tabs or label in ["img2img", "Extras", "Checkpoint Merger", "Train", "Settings", "Extensions"]:
                     continue
                 with gr.TabItem(label, id=ifid, elem_id=f"tab_{ifid}"):
                     interface.render()

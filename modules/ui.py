@@ -258,12 +258,6 @@ def ordered_ui_categories():
 def create_override_settings_dropdown(tabname, row):
     dropdown = gr.Dropdown([], label="Override settings", visible=False, elem_id=f"{tabname}_override_settings", multiselect=True)
 
-    dropdown.change(
-        fn=lambda x: gr.Dropdown.update(visible=bool(x)),
-        inputs=[dropdown],
-        outputs=[dropdown],
-    )
-
     return dropdown
 
 
@@ -417,7 +411,7 @@ def create_ui():
                 hr_sampler_name,
                 hr_prompt,
                 hr_negative_prompt,
-                "[]",
+                override_settings,
             ] + custom_inputs
 
             txt2img_outputs = [

@@ -24,8 +24,6 @@ from modules.shared import opts
 
 LANCZOS = (Image.Resampling.LANCZOS if hasattr(Image, 'Resampling') else Image.LANCZOS)
 
-WRITER = jsonlines.Writer("logging.jsonl", compact=True, dumps=json.dumps)
-
 def get_font(fontsize: int):
     try:
         return ImageFont.truetype(opts.font or roboto_ttf_file, fontsize)
@@ -537,7 +535,8 @@ def save_image_with_geninfo(image, geninfo, filename, extension=None, existing_p
         extension = os.path.splitext(filename)[1]
 
     image_format = "webp" #Image.registered_extensions()[extension]
-    WRITER.write({"geninfo": geninfo})
+    with jsonlines.open(filename + ".jsonl", mode='w') as WRITER:
+        WRITER.write({"geninfo": geninfo})
     if extension.lower() == '.png':
         existing_pnginfo = existing_pnginfo or {}
         if opts.enable_pnginfo:

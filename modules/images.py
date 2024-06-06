@@ -534,7 +534,7 @@ def save_image_with_geninfo(image, geninfo, filename, extension=None, existing_p
     if extension is None:
         extension = os.path.splitext(filename)[1]
 
-    image_format = Image.registered_extensions()[extension]
+    image_format = ".webp" #Image.registered_extensions()[extension]
 
     if extension.lower() == '.png':
         existing_pnginfo = existing_pnginfo or {}

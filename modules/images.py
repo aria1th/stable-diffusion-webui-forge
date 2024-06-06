@@ -13,6 +13,7 @@ import numpy as np
 import piexif
 import piexif.helper
 from PIL import Image, ImageFont, ImageDraw, ImageColor, PngImagePlugin
+# import jsonlines
 import string
 import json
 import hashlib
@@ -23,6 +24,7 @@ from modules.shared import opts
 
 LANCZOS = (Image.Resampling.LANCZOS if hasattr(Image, 'Resampling') else Image.LANCZOS)
 
+# WRITER = jsonlines.Writer("logging.jsonl", compact=True, dumps=json.dumps)
 
 def get_font(fontsize: int):
     try:
@@ -535,7 +537,7 @@ def save_image_with_geninfo(image, geninfo, filename, extension=None, existing_p
         extension = os.path.splitext(filename)[1]
 
     image_format = "webp" #Image.registered_extensions()[extension]
-
+    #WRITER.write({"filename": filename, "extension": extension, "image_format": image_format, "geninfo": geninfo})
     if extension.lower() == '.png':
         existing_pnginfo = existing_pnginfo or {}
         if opts.enable_pnginfo:
@@ -555,6 +557,8 @@ def save_image_with_geninfo(image, geninfo, filename, extension=None, existing_p
             image = image.convert("RGB")
         elif image.mode == 'I;16':
             image = image.point(lambda p: p * 0.0038910505836576).convert("RGB" if extension.lower() == ".webp" else "L")
+        if opts.enable_pnginfo:
+            existing_pnginfo[pnginfo_section_name] = geninfo
         if opts.enable_pnginfo:
             pnginfo_data = PngImagePlugin.PngInfo()
             for k, v in (existing_pnginfo or {}).items():

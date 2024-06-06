@@ -555,8 +555,14 @@ def save_image_with_geninfo(image, geninfo, filename, extension=None, existing_p
             image = image.convert("RGB")
         elif image.mode == 'I;16':
             image = image.point(lambda p: p * 0.0038910505836576).convert("RGB" if extension.lower() == ".webp" else "L")
-
-        image.save(filename, format=image_format, quality=opts.jpeg_quality, lossless=opts.webp_lossless)
+        if opts.enable_pnginfo:
+            pnginfo_data = PngImagePlugin.PngInfo()
+            for k, v in (existing_pnginfo or {}).items():
+                pnginfo_data.add_text(k, str(v))
+        else:
+            pnginfo_data = None
+        image: Image.Image = image
+        image.save(filename, format=image_format, quality=opts.jpeg_quality, lossless=opts.webp_lossless, pnginfo=pnginfo_data)
 
         if opts.enable_pnginfo and geninfo is not None:
             exif_bytes = piexif.dump({

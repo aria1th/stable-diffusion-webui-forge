@@ -33,7 +33,7 @@ class State:
     _server_command: Optional[str] = None
 
     def __init__(self):
-        self.server_start = time.time()
+        self.server_start = self.time_start = time.time()
 
     @property
     def need_restart(self) -> bool:

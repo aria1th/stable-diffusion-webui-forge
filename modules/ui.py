@@ -906,7 +906,7 @@ def create_ui():
             outputs=[html, generation_info, html2],
         )
 
-    #modelmerger_ui = ui_checkpoint_merger.UiCheckpointMerger()
+    modelmerger_ui = ui_checkpoint_merger.UiCheckpointMerger()
 
     with gr.Blocks(analytics_enabled=False) as train_interface:
         with gr.Row(equal_height=False):

@@ -129,7 +129,10 @@ class State:
         log.info("Starting job %s", job)
 
     def end(self):
-        duration = time.time() - self.time_start
+        if self.time_start is not None:
+            duration = time.time() - self.time_start
+        else:
+            duration = 20
         log.info("Ending job %s (%.2f seconds)", self.job, duration)
         self.job = ""
         self.job_count = 0
